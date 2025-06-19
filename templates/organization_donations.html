@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Incoming Donations</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Incoming Donations</h2>
+      <a href="{{ url_for('organization_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% if donations %}
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Donor Email</th>
+            <th>Amount (₹)</th>
+            <th>Type</th>
+            <th>Date & Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in donations %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ d.email }}</td>
+            <td>₹{{ "%.2f"|format(d.amount) }}</td>
+            <td>{{ d.type }}</td>
+            <td>{{ d.timestamp }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="alert alert-info">No donations yet.</div>
+    {% endif %}
+  </div>
+</body>
+</html>

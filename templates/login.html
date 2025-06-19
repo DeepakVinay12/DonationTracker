@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background: url("{{ url_for('static', filename='img/login.jpg') }}") no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  .login-container {
+    min-height: calc(100vh - 120px); /* Full height minus header/footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-box {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .form-box h2 {
+    color: #0d6efd;
+  }
+</style>
+
+<div class="login-container">
+  <div class="form-box">
+    <h2 class="text-center mb-4">Login</h2>
+    <form method="POST" action="{{ url_for('login') }}">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" required>
+      </div>
+      <div class="mb-3">
+        <label for="user_type" class="form-label">User Type</label>
+        <select name="user_type" class="form-select" required>
+          <option value="donor">Donor</option>
+          <option value="admin">Admin</option>
+          <option value="Organization">Organization</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

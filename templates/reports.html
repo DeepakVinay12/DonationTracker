@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Donation Reports</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h2>Donation Reports</h2>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mt-2">Back to Admin Dashboard</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger float-end mt-2">Logout</a>
+
+    {% if reports %}
+      <ul class="list-group mt-4">
+        {% for entry in reports %}
+          <li class="list-group-item">{{ entry }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="mt-4">No donation records available.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

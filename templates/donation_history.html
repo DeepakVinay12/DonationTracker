@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Donation History</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h2>Donation History for {{ session.name }}</h2>
+    <a href="{{ url_for('donor_dashboard') }}" class="btn btn-secondary mt-2">Back to Dashboard</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger float-end mt-2">Logout</a>
+
+    {% if donations %}
+      <table class="table table-bordered table-hover mt-4 bg-white">
+        <thead class="table-dark">
+          <tr>
+            <th>Type</th>
+            <th>Amount (₹)</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in donations %}
+            <tr>
+              <td>{{ d.type }}</td>
+              <td>₹{{ d.amount }}</td>
+              <td>{{ d.timestamp }}</td>
+              <td>
+                <form method="POST" action="{{ url_for('donation_history') }}" onsubmit="return confirm('Are you sure you want to delete this donation?');">
+                  <input type="hidden" name="donation_id" value="{{ d.id }}">
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="mt-4">No donation history found.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

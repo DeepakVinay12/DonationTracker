@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Organization Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: url("{{ url_for('static', filename='images/org-bg.jpg') }}") no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .dashboard-container {
+      background: rgba(0, 0, 0, 0.7); /* semi-transparent black */
+      padding: 2rem;
+      border-radius: 10px;
+      margin-top: 3rem;
+    }
+
+    .card {
+      background-color: #ffffffcc; /* slightly transparent white */
+    }
+
+    .btn {
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container dashboard-container">
+    <h2 class="text-center mb-4">Welcome, {{ session.name }}!</h2>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+      <h4>Your Campaigns</h4>
+      <div class="d-flex gap-2">
+        <a href="{{ url_for('create_campaign') }}" class="btn btn-primary">Create Campaign</a>
+        <a href="{{ url_for('organization_donations') }}" class="btn btn-success me-2">Track Incoming Donations</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <p>✅ Creates fundraising campaigns</p>
+      <p>✅ Tracks incoming donations</p>
+      <p>✅ Updates campaign status</p>
+      <p>✅ Engages donors with updates</p>
+    </div>
+
+    {% if campaigns %}
+      <div class="row">
+        {% for campaign in campaigns %}
+          <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ campaign.title }}</h5>
+                <p class="card-text">{{ campaign.description }}</p>
+                <p><strong>Goal:</strong> ₹{{ campaign.goal_amount }}</p>
+                <p><strong>Raised:</strong> ₹{{ campaign.raised_amount }}</p>
+                <a href="{{ url_for('update_campaign', campaign_id=campaign.id) }}" class="btn btn-outline-primary btn-sm">Edit</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info">No campaigns found.</div>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>DonationTracker</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon" />
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/aos/aos.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" />
+</head>
+
+<body class="index-page">
+  <header id="header" class="header fixed-top">
+    <div class="topbar d-flex align-items-center">
+      <div class="container d-flex justify-content-between">
+        <div class="contact-info d-flex align-items-center">
+          <i class="bi bi-envelope"><a href="mailto:contact@example.com">contact@example.com</a></i>
+          <i class="bi bi-phone ms-4"><span>+1 5589 55488 55</span></i>
+        </div>
+        <div class="social-links d-none d-md-flex align-items-center">
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="branding d-flex align-items-center">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="{{ url_for('home') }}" class="logo d-flex align-items-center">
+          <h1 class="sitename">DonationTracker</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <i class="mobile-nav-toggle bi bi-list d-xl-none"></i>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+      <img src="{{ url_for('static', filename='img/hero-bg.jpg') }}" alt="" />
+      <div class="container"  data-aos-delay="100">
+        <div class="row justify-content-start">
+          <div class="col-lg-8">
+            <h2>Welcome to Donation Tracker</h2>
+            <p>Empower giving</p>
+            <p>Streamline your donor relationships</p>
+            <a href="#about" class="btn-get-started">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+      <div class="container section-title" >
+        <span>Empowering donation management</span>
+        <h2>Streamline your fundraising efforts</h2>
+        <p>We simplify donations and reporting with real-time tools and transparency.</p>
+      </div>
+
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-6 order-1 order-lg-2"  data-aos-delay="100">
+            <img src="{{ url_for('static', filename='img/about.jpg') }}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 order-2 order-lg-1 content" data-aos-delay="200">
+            <p>DonationTracker revolutionizes how NGOs and nonprofits handle fundraising. Built on AWS, it ensures secure donations, real-time insights, and smooth donor engagement through a user-friendly interface.</p>
+            <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+      <div class="container section-title">
+        <span>Services</span>
+        <h2>Services</h2>
+        <p>Key features that simplify your fundraising mission</p>
+      </div>
+
+      <div class="container">
+        <div class="row gy-4">
+          <!-- Repeat these service cards -->
+          <div class="col-lg-4 col-md-6" data-aos-delay="100">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="bi bi-activity"></i></div>
+              <h3>Campaign Tracking</h3>
+              <p>Monitor donation flows, updates, and milestones with ease.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="bi bi-bar-chart-line"></i></div>
+              <h3>Real-Time Reporting</h3>
+              <p>Access live dashboards for financial oversight and transparency.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="bi bi-shield-lock"></i></div>
+              <h3>Secure Donations</h3>
+              <p>AWS IAM & encryption protocols keep donor data safe.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing section">
+      <div class="container section-title">
+        <span>Pricing</span>
+        <h2>Choose a Plan</h2>
+        <p>Flexible options to fit nonprofits of any size.</p>
+      </div>
+
+      <div class="container">
+        <div class="row g-4 g-lg-0">
+          <!-- Free Plan -->
+          <div class="col-lg-4"  data-aos-delay="100">
+            <div class="pricing-item">
+              <h3>Free Plan</h3>
+              <h4>$0<span> / month</span></h4>
+              <ul>
+                <li><i class="bi bi-check"></i> Basic campaign tools</li>
+                <li><i class="bi bi-check"></i> Secure donations</li>
+              </ul>
+              <div class="text-center"><a href="#" class="buy-btn">Get Started</a></div>
+            </div>
+          </div>
+          <!-- Paid Plan -->
+          <div class="col-lg-4 "  data-aos-delay="200">
+            <div class="pricing-item">
+              <h3>Pro Plan</h3>
+              <h4>$29<span> / month</span></h4>
+              <ul>
+                <li><i class="bi bi-check"></i> All Free features</li>
+                <li><i class="bi bi-check"></i> Real-time dashboards</li>
+                <li><i class="bi bi-check"></i> Donor engagement tools</li>
+              </ul>
+              <div class="text-center"><a href="#" class="buy-btn">Upgrade</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+      <div class="container section-title" >
+        <span>Contact</span>
+        <h2>Contact Us</h2>
+        <p>We’d love to hear from you</p>
+      </div>
+
+      <div class="container" data-aos-delay="100">
+        <div class="row gy-4">
+          <div class="col-lg-6">
+            <div class="info-item">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Our Address</h3>
+              <p>123 Cloud Street, New York, NY 10001</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="info-item">
+              <i class="bi bi-telephone"></i>
+              <h3>Phone</h3>
+              <p>+1 5589 55488 55</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="info-item">
+              <i class="bi bi-envelope"></i>
+              <h3>Email</h3>
+              <p>info@example.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer dark-background">
+    <div class="container text-center">
+      <p>&copy; 2025 DonationTracker. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/aos/aos.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

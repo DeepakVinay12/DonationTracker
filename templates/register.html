@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background: url("{{ url_for('static', filename='img/register.png') }}") no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  .register-container {
+    min-height: calc(100vh - 120px); /* full screen minus header/footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-box {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .form-box h2 {
+    color: #0d6efd;
+  }
+</style>
+
+<div class="register-container">
+  <div class="form-box">
+    <h2 class="text-center mb-4">Register</h2>
+    <form method="POST" action="{{ url_for('register') }}">
+      <div class="mb-3">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" required>
+      </div>
+      <div class="mb-3">
+        <label for="user_type" class="form-label">User Type</label>
+        <select name="user_type" class="form-select" required>
+          <option value="donor">Donor</option>
+          <option value="admin">Admin</option>
+          <option value="organization">Organization</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-warning w-100">Register</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
