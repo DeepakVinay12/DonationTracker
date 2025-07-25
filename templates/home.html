@@ -1,39 +1,53 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
+
 {% block content %}
 <style>
   body {
-    background: url("{{ url_for('static', filename='img/home img.jpg') }}") no-repeat center center fixed;
+    margin: 0;
+    padding: 0;
+    background: url("{{ url_for('static', filename='img/home1.jpg') }}") no-repeat center center fixed;
     background-size: cover;
-  }
-
-  header {
-    background: #000; /* solid black */
-    color: white;
-  }
-
-  footer {
-    background: rgba(0, 0, 0, 0.5); /* semi-transparent dark */
-    color: rgb(19, 6, 6);
+    height: 100vh;
+    width: 100vw;
   }
 
   .hero-overlay {
-    height: calc(50vh - 100px); /* adjust for header and footer height */
+    min-height: calc(100vh - 60px); /* adjust if you have header/footer */
     display: flex;
-    align-items: center;
     justify-content: center;
-    text-align: center;
-    /* color: white; */
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    align-items: center;
+    text-align: left;
     padding: 2rem;
+    color: rgb(0, 0, 0);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    background: transparent; /* No background color */
+  }
+
+  .hero-overlay h1 span {
+    color: #ffc107;
+  }
+
+  .btn-outline-light {
+    border-color: rgb(11, 10, 10);
+    color: rgb(0, 0, 0);
+  }
+
+  .btn-outline-light:hover {
+    background-color: rgb(255, 255, 255);
+    color: black;
+  }
+
+  .btn-warning {
+    color: black;
   }
 </style>
 
 <section class="hero-overlay">
   <div>
-    <h1 class="display-4 fw-bold">Welcome to <span class="text-warning">DonationTracker</span></h1>
+    <h1 class="display-4 fw-bold">Welcome to <span>DonationTracker</span></h1>
     <p class="lead mt-3 mb-4">
-      Empower giving. Streamline donor relationships.<br />
+      Empower giving. Streamline donor relationships.<br>
       Secure, insightful, and donor-friendly fundraising platform.
     </p>
     <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg me-3">Join Now</a>
