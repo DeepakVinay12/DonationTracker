@@ -5,26 +5,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Update Campaign</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: url('{{ url_for("static", filename="img/upd.webp") }}') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .page-container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 50px;
+    }
+
+    .form-container {
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+      padding: 40px;
+      border-radius:55px;
+      width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-control {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #000;
+    }
+
+    label {
+      color: #fff;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+
+    .btn-success:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+
+    .btn-secondary {
+      opacity: 0.85;
+    }
+  </style>
 </head>
-<body class="bg-light">
-  <div class="container mt-5">
-    <h2>Update Campaign</h2>
-    <form method="POST" class="mt-4">
-      <div class="mb-3">
-        <label for="title" class="form-label">Campaign Title</label>
-        <input type="text" class="form-control" name="title" value="{{ campaign.title }}" required>
-      </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" name="description" rows="4" required>{{ campaign.description }}</textarea>
-      </div>
-      <div class="mb-3">
-        <label for="goal_amount" class="form-label">Goal Amount (₹)</label>
-        <input type="number" step="0.01" class="form-control" name="goal_amount" value="{{ campaign.goal_amount }}" required>
-      </div>
-      <button type="submit" class="btn btn-success">Update Campaign</button>
-      <a href="{{ url_for('organization_dashboard') }}" class="btn btn-secondary">Cancel</a>
-    </form>
+<body>
+  <div class="page-container">
+    <div class="form-container">
+      <h2 class="mb-4 text-center">Update Campaign</h2>
+      <form method="POST">
+        <div class="mb-3">
+          <label for="title" class="form-label">Campaign Title</label>
+          <input type="text" class="form-control" name="title" value="{{ campaign.title }}" required>
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" name="description" rows="4" required>{{ campaign.description }}</textarea>
+        </div>
+        <div class="mb-3">
+          <label for="goal_amount" class="form-label">Goal Amount (₹)</label>
+          <input type="number" step="0.01" class="form-control" name="goal_amount" value="{{ campaign.goal_amount }}" required>
+        </div>
+        <button type="submit" class="btn btn-success">Update Campaign</button>
+        <a href="{{ url_for('organization_dashboard') }}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
   </div>
 </body>
 </html>
