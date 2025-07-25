@@ -17,7 +17,7 @@ donation_table = dynamodb.Table('Donations')
 campaign_table = dynamodb.Table('Campaigns')
 
 # Replace with your SNS Topic ARN
-SNS_TOPIC_ARN = 'arn:aws:sns:ap-south-1:099066653843:DonationAlerts'
+SNS_TOPIC_ARN = 'arn:aws:sns:ap-south-1:099066653843:Donation_topic.fifo'
 
 @app.route('/')
 def home():
