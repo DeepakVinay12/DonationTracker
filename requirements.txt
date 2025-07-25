@@ -1,7 +1,11 @@
-Flask
+flask
 boto3
-botocore
-Jinja2
-Werkzeug
+werkzeug
+jinja2
+markupSafe
 itsdangerous
-MarkupSafe
+click
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_sqlalchemy import SQLAlchemy
+import uuid
+from datetime import datetime
