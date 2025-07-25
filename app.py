@@ -15,7 +15,7 @@ sns = boto3.client('sns', region_name='ap-south-1')
 user_table = dynamodb.Table('Users')
 donation_table = dynamodb.Table('Donations')
 campaign_table = dynamodb.Table('Campaigns')
-organization_table = dynamodb.Table('organization)
+organization_table = dynamodb.Table('organization')
 
 # Replace with your SNS Topic ARN
 SNS_TOPIC_ARN = 'arn:aws:sns:ap-south-1:099066653843:Donation_topic.fifo'
