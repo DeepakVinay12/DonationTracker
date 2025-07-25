@@ -11,21 +11,43 @@
   .login-container {
     min-height: calc(100vh - 120px); /* Full height minus header/footer */
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
+    padding: 2rem;
   }
 
   .form-box {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(255, 255, 255, 0); /* Transparent white background */
+    backdrop-filter: blur(8px); /* Optional: adds a glass-like blur effect */
+    -webkit-backdrop-filter: blur(8px); /* Safari support */
     padding: 2rem 2.5rem;
     border-radius: 1rem;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 500px;
+    color: white; /* Makes form text white for better visibility */
   }
 
   .form-box h2 {
-    color: #0d6efd;
+    color: #ffc107; /* Yellow for heading */
+  }
+
+  .form-label,
+  .form-control,
+  .form-select {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent input backgrounds */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .btn-primary {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: black;
   }
 </style>
 
@@ -35,11 +57,11 @@
     <form method="POST" action="{{ url_for('login') }}">
       <div class="mb-3">
         <label for="email" class="form-label">Email Address</label>
-        <input type="email" class="form-control" name="email" required>
+        <input type="email" class="form-control" name="email" required placeholder="Enter your email">
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" name="password" required>
+        <input type="password" class="form-control" name="password" required placeholder="Enter your password">
       </div>
       <div class="mb-3">
         <label for="user_type" class="form-label">User Type</label>
