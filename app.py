@@ -4,6 +4,7 @@ from boto3.dynamodb.conditions import Key, Attr
 from botocore.exceptions import ClientError
 import uuid
 from datetime import datetime
+from decimal import Decimal  # ✅ use Decimal for DynamoDB numeric types
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'  # keep non-empty
@@ -21,6 +22,7 @@ organization_table = dynamodb.Table('organization')  # if you query it later
 
 # --- SNS topic (FIFO) ---
 SNS_TOPIC_ARN = 'arn:aws:sns:ap-south-1:099066653843:Donation_topic.fifo'
+
 
 # ---------- helpers ----------
 def query_by_email_or_scan(table, email, index_name='email-index'):
@@ -48,6 +50,7 @@ def query_by_email_or_scan(table, email, index_name='email-index'):
             return items
         raise
 
+
 def safe_publish_sns(subject, message):
     """
     Publish to FIFO SNS topic. Requires MessageGroupId. Add a unique dedupe id as well.
@@ -64,14 +67,30 @@ def safe_publish_sns(subject, message):
     except ClientError as e:
         print(f"[SNS] Publish failed: {e}")
 
+
+def convert_floats(obj):
+    """
+    Recursively convert Python float to Decimal for DynamoDB.
+    """
+    if isinstance(obj, float):
+        return Decimal(str(obj))
+    if isinstance(obj, dict):
+        return {k: convert_floats(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [convert_floats(v) for v in obj]
+    return obj
+
+
 # ---------- routes ----------
 @app.route('/')
 def home():
     return render_template('home.html')
 
+
 @app.route('/health')
 def health():
     return "OK"
+
 
 @app.route('/whoami')
 def whoami():
@@ -80,6 +99,7 @@ def whoami():
         "name": session.get('name'),
         "user_type": session.get('user_type')
     }
+
 
 # -------- auth --------
 @app.route('/login', methods=['GET', 'POST'])
@@ -126,6 +146,7 @@ def login():
 
     return render_template('login.html')
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """
@@ -151,10 +172,12 @@ def register():
 
     return render_template('register.html')
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('home'))
+
 
 # -------- donor --------
 @app.route('/donor/dashboard', methods=['GET', 'POST'])
@@ -181,7 +204,7 @@ def donor_dashboard():
         }
 
         try:
-            donation_table.put_item(Item=donation_data)
+            donation_table.put_item(Item=convert_floats(donation_data))
             print(f"[DONATION] Saved donation {donation_id}")
 
             # Update campaign raised amount if campaign provided
@@ -191,7 +214,7 @@ def donor_dashboard():
                 campaign = camp_resp.get('Item')
                 if campaign:
                     campaign['raised_amount'] = float(campaign.get('raised_amount', 0.0)) + amount
-                    campaign_table.put_item(Item=campaign)
+                    campaign_table.put_item(Item=convert_floats(campaign))
                     print(f"[DONATION] Updated campaign {campaign['id']} raised_amount")
 
             # SNS notify (FIFO safe)
@@ -215,6 +238,7 @@ def donor_dashboard():
         campaigns = []
 
     return render_template('donor_dashboard.html', total=total, campaigns=campaigns)
+
 
 @app.route('/donation_history', methods=['GET', 'POST'])
 def donation_history():
@@ -243,6 +267,7 @@ def donation_history():
 
     return render_template('donation_history.html', donations=donation_data)
 
+
 # -------- organization --------
 @app.route('/organization/dashboard')
 def organization_dashboard():
@@ -252,6 +277,7 @@ def organization_dashboard():
     # campaigns owned by this org (query index if exists else scan)
     campaigns = query_by_email_or_scan(campaign_table, session['email'])
     return render_template('organization_dashboard.html', campaigns=campaigns)
+
 
 @app.route('/organization/campaign/create', methods=['GET', 'POST'])
 def create_campaign():
@@ -268,7 +294,7 @@ def create_campaign():
             'raised_amount': 0.0
         }
         try:
-            campaign_table.put_item(Item=item)
+            campaign_table.put_item(Item=convert_floats(item))
             flash("Campaign created.", "success")
             return redirect(url_for('organization_dashboard'))
         except ClientError as e:
@@ -276,6 +302,7 @@ def create_campaign():
             flash("Could not create campaign.", "error")
 
     return render_template('create_campaign.html')
+
 
 @app.route('/organization/campaign/update/<campaign_id>', methods=['GET', 'POST'])
 def update_campaign(campaign_id):
@@ -294,7 +321,7 @@ def update_campaign(campaign_id):
         campaign['description'] = request.form['description']
         campaign['goal_amount'] = float(request.form['goal_amount'])
         try:
-            campaign_table.put_item(Item=campaign)
+            campaign_table.put_item(Item=convert_floats(campaign))
             flash("Campaign updated.", "success")
             return redirect(url_for('organization_dashboard'))
         except ClientError as e:
@@ -302,6 +329,7 @@ def update_campaign(campaign_id):
             flash("Could not update campaign.", "error")
 
     return render_template('update_campaign.html', campaign=campaign)
+
 
 @app.route('/delete_campaign/<campaign_id>', methods=['POST'])
 def delete_campaign(campaign_id):
@@ -313,12 +341,14 @@ def delete_campaign(campaign_id):
         flash('Could not delete campaign.', 'error')
     return redirect(url_for('organization_dashboard'))
 
+
 # -------- admin --------
 @app.route('/admin/dashboard')
 def admin_dashboard():
     if session.get('user_type', '').lower() != 'admin':
         return redirect(url_for('login'))
     return render_template('admin_dashboard.html')
+
 
 @app.route('/admin/users')
 def user_management():
@@ -330,6 +360,7 @@ def user_management():
         print(f"[ADMIN] users scan failed: {e}")
         users = []
     return render_template('user_management.html', users=users)
+
 
 @app.route('/admin/users/delete/<email>', methods=['POST'])
 def delete_user(email):
@@ -348,6 +379,7 @@ def delete_user(email):
         flash("Could not delete user.", "error")
 
     return redirect(url_for('user_management'))
+
 
 @app.route('/admin/reports')
 def reports():
@@ -375,6 +407,7 @@ def reports():
         })
 
     return render_template('reports.html', reports=report_data)
+
 
 # -------- run --------
 if __name__ == '__main__':
