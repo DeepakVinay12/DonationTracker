@@ -279,13 +279,31 @@ def organization_dashboard():
     return render_template('organization_dashboard.html', campaigns=campaigns)
 
 
-@app.route('/organization/donations')
+@app.route('/organization_donations')
 def organization_donations():
-    if 'user_type' not in session or session['user_type'].lower() != 'organization':
+    # Allow only organization or admin users
+    if session.get('user_type', '').lower() not in ['organization', 'admin']:
         return redirect(url_for('login'))
 
-    donations = Donation.query.all()  # You can filter by campaign later
-    return render_template('organization_donations.html', donations=donations)
+    try:
+        # Fetch all donation records from DynamoDB
+        response = donation_table.scan()
+        donations = response.get('Items', [])
+    except ClientError as e:
+        print(f"[ERROR] Could not fetch donations: {e}")
+        donations = []
+
+    # Prepare data for the HTML table
+    donation_data = []
+    for d in donations:
+        donation_data.append({
+            'email': d.get('email', 'Unknown'),
+            'amount': float(d.get('amount', 0)),
+            'type': d.get('type', 'N/A'),
+            'timestamp': d.get('timestamp', 'N/A')
+        })
+
+    return render_template('organization_donation.html', donations=donation_data)
 
 
 @app.route('/organization/campaign/create', methods=['GET', 'POST'])
@@ -422,4 +440,5 @@ def reports():
 if __name__ == '__main__':
     # On EC2, keep host=0.0.0.0
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
