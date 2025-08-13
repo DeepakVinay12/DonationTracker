@@ -279,6 +279,15 @@ def organization_dashboard():
     return render_template('organization_dashboard.html', campaigns=campaigns)
 
 
+@app.route('/organization/donations')
+def organization_donations():
+    if 'user_type' not in session or session['user_type'].lower() != 'organization':
+        return redirect(url_for('login'))
+
+    donations = Donation.query.all()  # You can filter by campaign later
+    return render_template('organization_donations.html', donations=donations)
+
+
 @app.route('/organization/campaign/create', methods=['GET', 'POST'])
 def create_campaign():
     if session.get('user_type', '').lower() != 'organization':
@@ -413,3 +422,4 @@ def reports():
 if __name__ == '__main__':
     # On EC2, keep host=0.0.0.0
     app.run(host='0.0.0.0', port=5000, debug=True)
+
